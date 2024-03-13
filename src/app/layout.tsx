@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      {/*  replace this static classes with the dynamic classes using the cn
+      <body className={inter.className}>{children}</body> */}
+      <body
+        className={cn("h-full font-sans antialiased relative", inter.className)}
+      >
+        {/* main takes the entire screen ; necessary for the responsive */}
+        <main className="flex flex-col relative min-h-screen">
+          {/* here contains various containers like the home footer etc  */}
+          <div className="flex-grow flex-1">{children}</div>
+        </main>
+      </body>
     </html>
   );
 }
