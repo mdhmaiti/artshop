@@ -2,22 +2,26 @@ import dotenv from "dotenv";
 import path from "path";
 import type { InitOptions } from "payload/config";
 import payload, { Payload } from "payload";
-// import nodemailer from "nodemailer";
+import nodemailer from "nodemailer";
 
 dotenv.config({
   path: path.resolve(__dirname, "../.env"),
 });
 
-// const transporter = nodemailer.createTransport({
-//   host: "smtp.resend.com",
-//   secure: true,
-//   port: 465,
-//   auth: {
-//     user: "resend",
-//     pass: process.env.RESEND_API_KEY,
-//   },
-// });
+// after making the api key install the nodemailer and use the resend
+const transporter = nodemailer.createTransport({
+  host: "smtp.resend.com",
+  secure: true,
+  port: 465,
+  auth: {
+    user: "resend",
+    pass: process.env.RESEND_API_KEY,
+  },
+});
 
+// the 'payload' is comming from the payload and is catched to reduce the number of cost;(un necessasy cost)
+// the payload is comming from the cms and it is the whole window client thing so it needs to be cached;
+// if there is not something globally cached pass there is no client and there is also no promise
 let cached = (global as any).payload;
 
 if (!cached) {
@@ -31,9 +35,11 @@ interface Args {
   initOptions?: Partial<InitOptions>;
 }
 
+// getPayloadClient returns a type of payload other wise it will return a any type and ts will not work
 export const getPayloadClient = async ({
   initOptions,
 }: Args = {}): Promise<Payload> => {
+  // the type <Payload> is comming from the payload; to check this go to definition
   if (!process.env.PAYLOAD_SECRET) {
     throw new Error("PAYLOAD_SECRET is missing");
   }
@@ -43,12 +49,14 @@ export const getPayloadClient = async ({
   }
 
   if (!cached.promise) {
+    // the email is also a property of the PAYLOAD cms ;
+    // it says when  the paylaod is first time initialized send the email to verify
     cached.promise = payload.init({
-      // email: {
-      //   transport: transporter,
-      //   fromAddress: "hello@joshtriedcoding.com",
-      //   fromName: "DigitalHippo",
-      // },
+      email: {
+        transport: transporter,
+        fromAddress: "medhashis000@gmail.com",
+        fromName: "DigitalHippo",
+      },
       secret: process.env.PAYLOAD_SECRET,
       local: initOptions?.express ? false : true,
       ...(initOptions || {}),
