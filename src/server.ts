@@ -2,9 +2,9 @@
 import express from "express";
 import { getPayloadClient } from "./get-payload";
 import { nextApp, nextHandler } from "./next-utils";
-// import * as trpcExpress from '@trpc/server/adapters/express'
-// import { appRouter } from './trpc'
-// import { inferAsyncReturnType } from '@trpc/server'
+import * as trpcExpress from "@trpc/server/adapters/express";
+import { appRouter } from "./trpc";
+import { inferAsyncReturnType } from "@trpc/server";
 import bodyParser from "body-parser";
 import { IncomingMessage } from "http";
 // import { stripeWebhookHandler } from './webhooks'
@@ -16,17 +16,18 @@ import { parse } from "url";
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-// const createContext = ({
-//   req,
-//   res,
-// }: trpcExpress.CreateExpressContextOptions) => ({
-//   req,
-//   res,
-// })
-//
-// export type ExpressContext = inferAsyncReturnType<
-//   typeof createContext
-// >
+// this createContext is specific to the trpc it is used to handle the req and response ; it is similar to the middleware but not a middleware;
+// trpcExpress.CreateExpressContextOptions is the type for the express adapter
+const createContext = ({
+  req,
+  res,
+}: trpcExpress.CreateExpressContextOptions) => ({
+  req,
+  res,
+});
+// the 'inferAsyncReturnType' is a a built in type from the trpc server which ensures that a promise is returned
+// it just makes a promise for the create context type and pass it for the trpc to use the express
+export type ExpressContext = inferAsyncReturnType<typeof createContext>;
 //
 // export type WebhookRequest = IncomingMessage & {
 //   rawBody: Buffer
@@ -84,23 +85,26 @@ const start = async () => {
   // })
 
   // app.use('/cart', cartRouter)
-  // app.use(
-  //   '/api/trpc',
-  //   trpcExpress.createExpressMiddleware({
-  //     router: appRouter,
-  //     createContext,
-  //   })
-  // )
+
+  // the code below basically tells that wheen a request comes to the api/trpc pass it to the express adapter
+  // and using the express adapter create a middleware which has the context and the appRouter
+  app.use(
+    "/api/trpc",
+    trpcExpress.createExpressMiddleware({
+      router: appRouter,
+      createContext,
+    })
+  );
 
   app.use((req, res) => nextHandler(req, res));
 
   nextApp.prepare().then(() => {
-    //payload.logger.info('Next.js started')
+    payload.logger.info("Next.js started");
 
     app.listen(PORT, async () => {
-      // payload.logger.info(
-      //   `Next.js App URL: ${process.env.NEXT_PUBLIC_SERVER_URL}`
-      // )
+      payload.logger.info(
+        `Next.js App URL: ${process.env.NEXT_PUBLIC_SERVER_URL}`
+      );
     });
   });
 };
