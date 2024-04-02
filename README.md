@@ -84,4 +84,4 @@ Relationship Field in fields Array: Defines a formal relationship between media 
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
-51. note : for the security issues the user cacan only download the product when the webhook of the stripe is triggered;
+51. note : for the security issues the user cacan only download the product when the webhook of the stripe is triggered ;
