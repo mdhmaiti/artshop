@@ -14,6 +14,7 @@ const handler = (req: Request) => {
     endpoint: "/api/trpc",
     req,
     router: appRouter,
+    // @ts-expect-error context already passed from express middleware ; other wise build gives error
     createContext: () => ({}),
   });
 };

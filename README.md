@@ -1,8 +1,8 @@
-# artShop documentation.
+# artShop documentation
 
 <!--toc:start-->
 
-- [artShop documentation.](#artshop-documentation)
+- [artShop documentation](#artshop-documentation)
   - [AIM](#aim)
   - [small points](#small-points)
   - [todos](#todos)
@@ -31,7 +31,7 @@ The aim is to make a software where the user can buy or sell a digital product; 
 5. auth flow with the email and the verify email : users -> sign-up page -> verification email-> verify email with the token -> / verify email route -> update the data verify email = true;
 6. form implemented by the 'react-hook-forms' , '@hook form resolvers', zod and sonner for the toast, Here I am not using the shad cn because i do not want to use the form code of shad.
    ###############################################################
-7. now for the communication of the front end and the backend and also the payload user ( the user can only make a account in the payload after the verification) ; here for the efficient and low cost communication the ` the trpc is used for the efficient communication of the front end and the backend at a low cost`
+7. now for the communication of the front end and the backend and also the payload user ( the user can only make a account in the payload after the verification) ; here for the efficient and low cost communication the `the trpc is used for the efficient communication of the front end and the backend at a low cost`
 8. basic dependency for the trpc : '@trpc/client @trpc/server @trpc/next @trpc/react-query ' and aslo install the tanstack query
 9. make the trpc client and the trpc index ; trpc client makes the backend like a generic ; here it is the app router type generic which comes from the backend and forwared to the trpc clients;
 10. set up the provider.tsx for the trpc and the react query ; and in the fetch part change the property of the credentials to true. this allows effective communication of the cookies etc between the express and the next js.
@@ -72,7 +72,7 @@ The aim is to make a software where the user can buy or sell a digital product; 
 
 Relationship Field in fields Array: Defines a formal relationship between media items and users within the CMS or data model. This is useful for querying and managing data within the CMS interface, as well as potentially enforcing constraints or behaviors related to the relationship (e.g., requiring a user to be associated with each media item).
 
-43. make the product media where the image is uploaded and the product files and similarly make the order shemas in the payload and genereate the types;
+42. make the product media where the image is uploaded and the product files and similarly make the order shemas in the payload and genereate the types;
 44. then for the home create a resuabale and customizable component to fetch the products when the user scrolls its is something combined with the pagination using the payload.
 45. after that make the air bnb style image slider which will be there for the products.
 46. implement the cart logic and then,
@@ -84,4 +84,4 @@ Relationship Field in fields Array: Defines a formal relationship between media 
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
-51.
+51. note : for the security issues the user cacan only download the product when the webhook of the stripe is triggered;
