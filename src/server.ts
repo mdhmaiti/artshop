@@ -7,7 +7,7 @@ import { appRouter } from "./trpc";
 import { inferAsyncReturnType } from "@trpc/server";
 import bodyParser from "body-parser";
 import { IncomingMessage } from "http";
-// import { stripeWebhookHandler } from './webhooks'
+import { stripeWebhookHandler } from "./webhooks";
 import nextBuild from "next/dist/build";
 import path from "path";
 import { PayloadRequest } from "payload/types";
@@ -29,23 +29,19 @@ const createContext = ({
 // it just makes a promise for the create context type and pass it for the trpc to use the express
 export type ExpressContext = inferAsyncReturnType<typeof createContext>;
 //
-// export type WebhookRequest = IncomingMessage & {
-//   rawBody: Buffer
-// }
+export type WebhookRequest = IncomingMessage & {
+  rawBody: Buffer;
+};
 
 const start = async () => {
-  // const webhookMiddleware = bodyParser.json({
-  //   verify: (req: WebhookRequest, _, buffer) => {
-  //     req.rawBody = buffer
-  //   },
-  // })
-  //
-  // app.post(
-  //   '/api/webhooks/stripe',
-  //   webhookMiddleware,
-  //   stripeWebhookHandler
-  // )
+  const webhookMiddleware = bodyParser.json({
+    verify: (req: WebhookRequest, _, buffer) => {
+      req.rawBody = buffer;
+    },
+  });
 
+  app.post("/api/webhooks/stripe", webhookMiddleware, stripeWebhookHandler);
+  //
   const payload = await getPayloadClient({
     initOptions: {
       express: app,
@@ -55,36 +51,35 @@ const start = async () => {
     },
   });
 
-  // if (process.env.NEXT_BUILD) {
-  //   app.listen(PORT, async () => {
-  //     payload.logger.info("Next.js is building for production");
-  //
-  //     // @ts-expect-error
-  //     await nextBuild(path.join(__dirname, "../"));
-  //
-  //     process.exit();
-  //   });
-  //
-  //   return;
-  // }
-  //
-  // const cartRouter = express.Router()
-  //
-  // cartRouter.use(payload.authenticate)
-  //
-  // cartRouter.get('/', (req, res) => {
-  //   const request = req as PayloadRequest
-  //
-  //   if (!request.user)
-  //     return res.redirect('/sign-in?origin=cart')
-  //
-  //   const parsedUrl = parse(req.url, true)
-  //   const { query } = parsedUrl
-  //
-  //   return nextApp.render(req, res, '/cart', query)
-  // })
+  if (process.env.NEXT_BUILD) {
+    app.listen(PORT, async () => {
+      payload.logger.info("Next.js is building for production");
 
-  // app.use('/cart', cartRouter)
+      // @ts-expect-error
+      await nextBuild(path.join(__dirname, "../"));
+
+      process.exit();
+    });
+
+    return;
+  }
+
+  const cartRouter = express.Router();
+
+  cartRouter.use(payload.authenticate);
+
+  cartRouter.get("/", (req, res) => {
+    const request = req as PayloadRequest;
+
+    if (!request.user) return res.redirect("/sign-in?origin=cart");
+
+    const parsedUrl = parse(req.url, true);
+    const { query } = parsedUrl;
+
+    return nextApp.render(req, res, "/cart", query);
+  });
+
+  app.use("/cart", cartRouter);
 
   // the code below basically tells that wheen a request comes to the api/trpc pass it to the express adapter
   // and using the express adapter create a middleware which has the context and the appRouter

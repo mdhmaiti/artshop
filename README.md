@@ -3,9 +3,13 @@
 <!--toc:start-->
 
 - [artShop documentation.](#artshop-documentation)
+  - [AIM](#aim)
   - [small points](#small-points)
   - [todos](#todos)
-  <!--toc:end-->
+
+## AIM
+
+The aim is to make a software where the user can buy or sell a digital product; In the web app they can only see the product image but when they buy the product they will be redirected to a thank you page when they can actually download the products.
 
 ## small points
 
@@ -15,6 +19,7 @@
 4. note : sometimes the 'process.env' does not works as it should natively in the next js to avoid this issue just import the dotenv and use the relative path.
 5. In the payload cms the admin comes by the default and some default user collection is already assigned to that but here we are assiginig a custom users collection, So how to do that ? visit the payload.config to know.
 6. receiving the server side and client "search params" are two different thing in the next js. The server side process is in the verify email page and the client side is in the sign in page.tsx .
+7. in the tsconfig the module us changed to common js from es next and the module resolution is changed from bundler to node
 
 ## todos
 
@@ -58,3 +63,25 @@
 33. to understand sign in as a seller or customer logic visit the sign in page.
 34. now the user can successlullu sign in but the navbar 'signin / create account ' option does not changes to make the changes have to get the current sessionn from the payload ; which we will get from the paylaod utils it will get us the user in the server side.
 35. this payload utils utility is responsible to get the payload token from the cookies and actually decrypt the user and the password from the cookies; and under the hood it is using the jwt authorization
+36. also make the sign out ; check the use auth hook and the user account nav file for mmore details
+37. now as the auth flow is working properly now it time to deal with the products
+38. make a products collection; where the products will be associated with their product files and their media files. the product files will contain the actual product and the media files will contain the images which we will be displayed in the home page.
+39. we will also make a separate media collection to upload the the images and it will be stored in a different directory by using the cms; no need to use extra upload facility.
+40.
+41. beforeChange Hook: Dynamically ensures that each media item is linked to the user who initiated the change. This ensures consistency and accuracy in associating users with media items at the time of modification.
+
+Relationship Field in fields Array: Defines a formal relationship between media items and users within the CMS or data model. This is useful for querying and managing data within the CMS interface, as well as potentially enforcing constraints or behaviors related to the relationship (e.g., requiring a user to be associated with each media item).
+
+43. make the product media where the image is uploaded and the product files and similarly make the order shemas in the payload and genereate the types;
+44. then for the home create a resuabale and customizable component to fetch the products when the user scrolls its is something combined with the pagination using the payload.
+45. after that make the air bnb style image slider which will be there for the products.
+46. implement the cart logic and then,
+47. the only big thing now left is the stripe payment integration.re
+48. for managing the state we are using the zustand
+49. after creating the cart page there is a checkout button for the payment. This check out is the entry point for the payment integration
+50.     "dev": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts nodemon",
+    "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+51.

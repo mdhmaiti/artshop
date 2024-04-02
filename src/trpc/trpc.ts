@@ -31,5 +31,5 @@ const isAuth = middleware(async ({ ctx, next }) => {
 
 export const router = t.router;
 export const publicProcedure = t.procedure;
-// the auth middleware is always a private method
+// the auth middleware is always a private method; the private procedure is for the payment router
 export const privateProcedure = t.procedure.use(isAuth);
