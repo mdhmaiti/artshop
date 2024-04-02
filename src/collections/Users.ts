@@ -1,4 +1,4 @@
-// import { PrimaryActionEmailHtml } from "../components/emails/PrimaryActionEmail";
+import { PrimaryActionEmailHtml } from "../components/emails/PrimaryActionEmail";
 import { Access, CollectionConfig } from "payload/types";
 
 // admin is a user with just the extra prevelage and it just returns the user id
@@ -28,12 +28,12 @@ export const Users: CollectionConfig = {
       // initially to just test the things return a p tag or h tag mello medhashis to make it work
       // on clicking it takes to this route which has a token `${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}`,
       generateEmailHTML: ({ token }) => {
-        // return PrimaryActionEmailHtml({
-        //   actionLabel: "verify your account",
-        //   buttonText: "Verify Account",
-        //   href: `${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}`,
-        // });
-        return `<a href ='${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}'> verify-email</a>`;
+        return PrimaryActionEmailHtml({
+          actionLabel: "verify your account",
+          buttonText: "Verify Account",
+          href: `${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}`,
+        });
+        // return `<a href ='${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}'> verify-email</a>`;
       },
     },
   },
@@ -48,26 +48,26 @@ export const Users: CollectionConfig = {
     defaultColumns: ["id"],
   },
   fields: [
-    // {
-    //   name: "products",
-    //   label: "Products",
-    //   admin: {
-    //     condition: () => false,
-    //   },
-    //   type: "relationship",
-    //   relationTo: "products",
-    //   hasMany: true,
-    // },
-    // {
-    //   name: "product_files",
-    //   label: "Product files",
-    //   admin: {
-    //     condition: () => false,
-    //   },
-    //   type: "relationship",
-    //   relationTo: "product_files",
-    //   hasMany: true,
-    // },
+    {
+      name: "products",
+      label: "Products",
+      admin: {
+        condition: () => false,
+      },
+      type: "relationship",
+      relationTo: "products",
+      hasMany: true,
+    },
+    {
+      name: "product_files",
+      label: "Product files",
+      admin: {
+        condition: () => false,
+      },
+      type: "relationship",
+      relationTo: "product_files",
+      hasMany: true,
+    },
     {
       name: "role",
       defaultValue: "user",
