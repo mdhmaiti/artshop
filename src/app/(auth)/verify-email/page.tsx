@@ -25,7 +25,7 @@ const VerifyEmailPage = ({ searchParams }: PageProps) => {
     <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         {/* if there is a token and the token is a string then render a different component  */}
-        to verify the email pass the token as a prop in the email component
+        {/* to verify the email pass the token as a prop in the email component */}
         {token && typeof token === "string" ? (
           <div className="grid gap-6">
             <VerifyEmail token={token} />
