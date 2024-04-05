@@ -12,7 +12,7 @@ export function formatPrice(
   options: {
     currency?: "USD" | "EUR" | "GBP" | "BDT";
     notation?: Intl.NumberFormatOptions["notation"];
-  } = {},
+  } = {}
 ) {
   // Intl.Num... is the way to re present numbers see js docs
   // compact is a value for num format
@@ -30,17 +30,17 @@ export function formatPrice(
 }
 // TODO  railways
 export function constructMetadata({
-  title = 'DigitalHippo - the marketplace for digital assets',
-  description = 'DigitalHippo is an open-source marketplace for high-quality digital goods.',
-  image = '/thumbnail.png',
-  icons = '/favicon.ico',
+  title = "DigitalHippo - the marketplace for digital assets",
+  description = "DigitalHippo is an open-source marketplace for high-quality digital goods.",
+  image = "/thumbnail.png",
+  icons = "/favicon.ico",
   noIndex = false,
 }: {
-  title?: string
-  description?: string
-  image?: string
-  icons?: string
-  noIndex?: boolean
+  title?: string;
+  description?: string;
+  image?: string;
+  icons?: string;
+  noIndex?: boolean;
 } = {}): Metadata {
   return {
     title,
@@ -55,19 +55,19 @@ export function constructMetadata({
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: [image],
-      creator: '@joshtriedcoding',
+      creator: "@medhashis",
     },
     icons,
-    metadataBase: new URL('http://localhost:3000'),
+    metadataBase: new URL("https://artshop-production.up.railway.app"),
     ...(noIndex && {
       robots: {
         index: false,
         follow: false,
       },
     }),
-  }
+  };
 }
