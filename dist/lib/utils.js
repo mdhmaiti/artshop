@@ -56,7 +56,7 @@ function constructMetadata(_a) {
             description: description,
             images: [image],
             creator: "@medhashis",
-        }, icons: icons, metadataBase: new URL("https://artshop-production.up.railway.app") }, (noIndex && {
+        }, icons: icons, metadataBase: new URL("https://digitalhippo.medhashismaiti.com") }, (noIndex && {
         robots: {
             index: false,
             follow: false,

@@ -16,6 +16,9 @@
 # production
 /build
 
+# dist foler
+/dist
+
 # misc
 .DS_Store
 *.pem

@@ -62,7 +62,7 @@ export function constructMetadata({
       creator: "@medhashis",
     },
     icons,
-    metadataBase: new URL("https://artshop-production.up.railway.app"),
+    metadataBase: new URL("https://digitalhippo.medhashismaiti.com"),
     ...(noIndex && {
       robots: {
         index: false,

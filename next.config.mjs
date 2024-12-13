@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   images: {
     remotePatterns: [
       {
@@ -10,7 +11,8 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "artshop-production.up.railway.app",
+        hostname: "digitalhippo.medhashismaiti.com",
+        pathname: "**",
       },
     ],
   },
