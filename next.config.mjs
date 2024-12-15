@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   images: {
     remotePatterns: [
       {
@@ -8,6 +7,11 @@ const nextConfig = {
         hostname: "localhost",
         pathname: "**",
         port: "3000",
+      },
+      {
+        protocol: "http",
+        hostname: "digitalhippo.medhashismaiti.com",
+        pathname: "**",
       },
       {
         protocol: "https",
